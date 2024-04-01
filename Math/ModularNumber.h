@@ -4,8 +4,6 @@
     Sources: Benq 
         https://github.com/bqi343/cp-notebook/blob/master/Implementations/content/number-theory%20(11.1)/Modular%20Arithmetic/ModInt.h
     Verification: https://open.kattis.com/problems/modulararithmetic
-
-    
 */
 
 #include "ExtendedEuclidean.h"
