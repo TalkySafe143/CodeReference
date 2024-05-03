@@ -1,167 +1,190 @@
-typedef long long ll;
+/**
+ * Splay Tree implementation with sum range queries
+ * Source: Me & Data Structures and Algorithms Specialization (Coursera)
+ * Verification: *
+ */
 
-struct Node {
+struct Vertex {
     ll key;
-    Node* parent = nullptr;
-    Node* left = nullptr;
-    Node* right = nullptr;
-    Node(ll d) : key(d) {};
+    ll sum;
+    Vertex* left;
+    Vertex* right;
+    Vertex* parent;
+
+    Vertex(int key, long long sum, Vertex* left, Vertex* right, Vertex* parent)
+            : key(key), sum(sum), left(left), right(right), parent(parent) {}
 };
 
-struct Splay {
-    Node* root;
-    Splay() : root(nullptr) {}
-    Splay(Node* N) : root(N) {}
+struct SplayTree {
+    Vertex* root = NULL;
 
-
-    Node* Zig(Node* P, Node *C) {
-
-        if (C == P->left) {
-            P->left = C->right;
-            C->right = P;
-        } else {
-            P->right = C->left;
-            C->left = P;
+    void update(Vertex* v) {
+        if (v == NULL) return;
+        v->sum = v->key + (v->left != NULL ? v->left->sum : 0ll) + (v->right != NULL ? v->right->sum : 0ll);
+        if (v->left != NULL) {
+            v->left->parent = v;
         }
-        C->parent = P->parent;
-        P->parent = C;
-        return C;
-    }
-
-    Node* ZigZig(Node* G, Node* P, Node* C) {
-        bool isLeft = true;
-        auto parentOfG = G->parent;
-
-        if (parentOfG != nullptr && G == parentOfG->right) isLeft = false;
-        P = Zig(G, P);
-        C = Zig(P, C);
-
-        if (parentOfG != nullptr) {
-            if (isLeft) parentOfG->left = C;
-            else parentOfG->right = C;
+        if (v->right != NULL) {
+            v->right->parent = v;
         }
-
-        return C;
-    }
-    Node* ZigZag(Node* G, Node* P, Node* C) {
-        bool isLeft = true;
-
-        if (P == G->right) isLeft = false;
-        C = Zig(P, C);
-        if (isLeft) G->left = C;
-        else G->right = C;
-
-        isLeft = true;
-        auto parentOfG = G->parent;
-
-        if (parentOfG != nullptr && G == parentOfG->right) isLeft = false;
-
-        C = Zig(G, C);
-
-        if (parentOfG != nullptr) {
-            if (isLeft) parentOfG->left = C;
-            else parentOfG->right = C;
-        }
-
-        return C;
     }
 
-    Node* SplayOp(vector<Node*>& path) {
-        int i = (int)path.size()-1;
-        auto C = path[i];
-        i--;
-
-        while (i >= 0) {
-            auto P = path[i];
-            i--;
-            if (i < 0) {
-                C = Zig(P, C);
-                return C;
-            } else {
-                auto G = path[i];
-                i--;
-                bool leftParent = true;
-                if (P == G->right) leftParent = false;
-                bool leftChild = true;
-                if (C == P->right) leftChild = false;
-
-                if (leftParent == leftChild) C = ZigZig(G, P, C);
-                else C = ZigZag(G, P, C);
-            }
-        }
-
-        return C;
-    }
-
-    Node* Find(ll k, Node* u, vector<Node*> & path) {
-        path.push_back(u);
-        if (u->key == k) return u;
-
-        if (u->key > k) {
-            if (u->left == nullptr) return u;
-            return Find(k, u->left, path);
-        }
-        if (u->right == nullptr) return u;
-        return Find(k, u->right, path);
-    }
-
-    Node* SplayFind(Node *R, ll k) {
-        vector<Node*> path;
-        Find(k, R, path);
-        auto N = SplayOp(path);
-        this->root = N;
-        return N;
-    }
-
-    void SplayInsert(Node* R, ll k) {
-
-        if (this->root == nullptr) {
-            this->root = new Node(k);
+    void small_rotation(Vertex* v) {
+        Vertex* parent = v->parent;
+        if (parent == NULL) {
             return;
         }
-
-        auto trees = Split(R, k);
-        Node* node = new Node(k);
-        node->left = trees.first;
-        if (trees.first != nullptr) trees.first->parent = node;
-        if (trees.second != nullptr) trees.second->parent = node;
-        node->right = trees.second;
-        this->root = node;
-    }
-
-    Node* SplayDelete(Node* R, ll k) {
-        SplayFind(R, k);
-        R = Merge(R->left, R->right);
-        return R;
-    }
-
-    Node* Merge(Node* R1, Node* R2) {
-        ll maxi = R1->key;
-        auto node = R1->right;
-
-        while (node != nullptr) {
-            maxi = node->key;
-            node = node->right;
-        }
-
-        SplayFind(R1, maxi);
-        auto newRoot = R1;
-        R1->right = R2;
-        return newRoot;
-    }
-
-    pair<Node*, Node*> Split(Node* R, ll x) {
-        SplayFind(R, x);
-        Node* leftTree, *rightTree;
-        if (this->root->key <= x) {
-            leftTree = this->root;
-            rightTree = this->root->right;
+        Vertex* grandparent = v->parent->parent;
+        if (parent->left == v) {
+            Vertex* m = v->right;
+            v->right = parent;
+            parent->left = m;
         } else {
-            leftTree = this->root->left;
-            rightTree = this->root;
+            Vertex* m = v->left;
+            v->left = parent;
+            parent->right = m;
         }
-
-        return { leftTree, rightTree };
+        update(parent);
+        update(v);
+        v->parent = grandparent;
+        if (grandparent != NULL) {
+            if (grandparent->left == parent) {
+                grandparent->left = v;
+            } else {
+                grandparent->right = v;
+            }
+        }
     }
 
+    void big_rotation(Vertex* v) {
+        if (v->parent->left == v && v->parent->parent->left == v->parent) {
+            // Zig-zig
+            small_rotation(v->parent);
+            small_rotation(v);
+        } else if (v->parent->right == v && v->parent->parent->right == v->parent) {
+            // Zig-zig
+            small_rotation(v->parent);
+            small_rotation(v);
+        } else {
+            // Zig-zag
+            small_rotation(v);
+            small_rotation(v);
+        }
+    }
+
+    void splay(Vertex*& _root, Vertex* v) {
+        if (v == NULL) return;
+        while (v->parent != NULL) {
+            if (v->parent->parent == NULL) {
+                small_rotation(v);
+                break;
+            }
+            big_rotation(v);
+        }
+        _root = v;
+    }
+
+    // Searches for the given key in the tree with the given root
+    // and calls splay for the deepest visited node after that.
+    // If found, returns a pointer to the node with the given key.
+    // Otherwise, returns a pointer to the node with the smallest
+    // bigger key (next value in the order).
+    // If the key is bigger than all keys in the tree,
+    // returns NULL.
+    Vertex* find(Vertex*& _root, ll key) {
+        Vertex* v = _root;
+        Vertex* last = _root;
+        Vertex* next = NULL;
+        while (v != NULL) {
+            if (v->key >= key && (next == NULL || v->key < next->key)) {
+                next = v;
+            }
+            last = v;
+            if (v->key == key) {
+                break;
+            }
+            if (v->key < key) {
+                v = v->right;
+            } else {
+                v = v->left;
+            }
+        }
+        splay(_root, last);
+        return next;
+    }
+
+    void split(Vertex* _root, ll key, Vertex*& left, Vertex*& right) {
+        right = find(_root, key);
+        splay(_root, right);
+        if (right == NULL) {
+            left = _root;
+            return;
+        }
+        left = right->left;
+        right->left = NULL;
+        if (left != NULL) {
+            left->parent = NULL;
+        }
+        update(left);
+        update(right);
+    }
+
+    Vertex* merge(Vertex* left, Vertex* right) {
+        if (left == NULL) return right;
+        if (right == NULL) return left;
+        Vertex* min_right = right;
+        while (min_right->left != NULL) {
+            min_right = min_right->left;
+        }
+        splay(right, min_right);
+        right->left = left;
+        update(right);
+        return right;
+    }
+
+    void insert(ll x) {
+        Vertex* left = NULL;
+        Vertex* right = NULL;
+        Vertex* new_vertex = NULL;
+        split(root, x, left, right);
+        if (right == NULL || right->key != x) {
+            new_vertex = new Vertex(x, x, NULL, NULL, NULL);
+        }
+        root = merge(merge(left, new_vertex), right);
+    }
+
+    void erase(ll x) {
+        auto _res = find(root, x);
+        if (_res == NULL) return;
+        if (root->key != x) return;
+        auto lf = root->left, rg = root->right;
+        delete root;
+        root = merge(lf, rg);
+        if (root) root->parent = NULL;
+    }
+
+    bool find(ll x) {
+        auto _res = find(root, x);
+        if (_res == NULL) {
+            return false;
+        }
+        if (root->key != x) return false;
+        return true;
+    }
+
+    long long sum(ll from, ll to) {
+        Vertex* left = NULL;
+        Vertex* middle = NULL;
+        Vertex* right = NULL;
+        split(root, from, left, middle);
+        split(middle, to + 1, middle, right);
+        long long ans = 0;
+
+        if (middle) ans = middle->sum;
+
+        middle = merge(middle, right);
+        root = merge(left, middle);
+
+        return ans;
+    }
 };
