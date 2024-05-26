@@ -9,10 +9,12 @@ struct DSU {
     vector<int> rank;
     vector<int> parent;
 
-    explicit DSU(vector<int> &a) {
-        rank.resize(a.size()+1);
-        parent.resize(a.size()+1);
-        for (int i = 1; i <= (int)a.size(); i++) make_set(i);
+    DSU () {};
+
+    DSU(int n) {
+        rank.resize(n+1);
+        parent.resize(n+1);
+        for (int i = 1; i <= n; i++) make_set(i);
     }
 
     int find_set(int v) {
