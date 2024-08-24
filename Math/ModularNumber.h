@@ -6,8 +6,6 @@
     Verification: https://open.kattis.com/problems/modulararithmetic
 */
 
-#include "ExtendedEuclidean.h"
-
 template<int MOD, int RT> struct mint {
 	static const int mod = MOD;
 	static constexpr mint rt() { 
