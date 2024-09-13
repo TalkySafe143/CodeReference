@@ -47,6 +47,6 @@ struct LCP {
     // Invert SuffixArray to compute the next suffix in the array
     void invertSuffixArray(SuffixArray order, vi& pos) {
         pos.assign(len(order), 0);
-        forn(i, n) pos[order[i]] = i;
+        forn(i, len(order)) pos[order[i]] = i;
     }
 };
