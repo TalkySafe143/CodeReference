@@ -12,6 +12,7 @@ struct SuffixArray {
 	vi order, type, s;
 
 	int& operator[](int i) { return s[i]; };
+	int size() { return len(s); };
 
 	SuffixArray(string &S) {
 		sortCharacters(S, order);

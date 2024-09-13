@@ -4,3 +4,4 @@ main
 cmake-build-debug/
 .vscode
 build/
+NonCompetitiveReference/

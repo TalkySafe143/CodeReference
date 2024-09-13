@@ -6,7 +6,7 @@
   Complexity: O(|P|)
 **/
 
-vi prefixFunction(string P) {
+vi prefixFunction(string &P) {
 	vi s(len(P));
 	s[0] = 0;
 	int border = 0;
