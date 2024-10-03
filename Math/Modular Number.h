@@ -6,9 +6,8 @@ Sources: Benq
 Verification: https://open.kattis.com/problems/modulararithmetic
 */
 
-template<int MOD, int RT> struct mint {
+template<int MOD> struct mint {
 	static const int mod = MOD;
-	static constexpr mint rt() { return RT; } // primitive root
  	int v;
  	explicit operator int() const { return v; }
 	mint():v(0) {}
