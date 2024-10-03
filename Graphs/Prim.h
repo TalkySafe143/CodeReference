@@ -1,12 +1,9 @@
 /*
-    Computes one MST of a given Graph
-    Use a priority queue
-
-    Sources: Me
-
-    Verification: *
-
-    Complexity: O(|E|log |V|)
+Computes one MST of a given Graph. Use a priority queue.
+Complexity: $O(|E|log |V|)$.
+---
+Sources: Me
+Verification: *
 */
 
 struct Prim {

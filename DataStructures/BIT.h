@@ -1,11 +1,11 @@
-/**
- * Fenwick Tree
- *
- * Sources: Cp-algorithms
- *  - https://cp-algorithms.com/data_structures/fenwick.html#
- *
- * Verification: *
-**/
+/*
+Fenwick Tree.
+Complexity: $O(\log n)$ for both update and query, for building the tree it is $O(n\log n)$. or $O(n)$ filled with 0's.
+---
+Sources: Cp-algorithms
+ - https://cp-algorithms.com/data_structures/fenwick.html#
+Verification: *
+*/
 
 
 struct BITZero { // Get and Range query - Zero-based indexing - Linear Construction

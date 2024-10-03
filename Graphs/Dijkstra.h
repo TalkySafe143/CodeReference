@@ -1,13 +1,9 @@
 /*
-    Compute the shortest path from S
-
-    For dense graphs, use the second constructor.
-
-    Sources: Me & Cp-algorithms
-
-    Verification: *
-
-    Complexity: O((|V|+|E|)log |V|) or O(|V|^2)
+Compute the shortest path from $S$. For dense graphs, use the second constructor.
+Complexity: $O((|V|+|E|)log |V|)$ or $O(|V|^2)$.
+---
+Sources: Me & Cp-algorithms
+Verification: *
 */
 
 

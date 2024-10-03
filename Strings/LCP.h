@@ -1,13 +1,10 @@
-/**
-    LCP array
-
-    Source: Me
-
-    Verification: *
-    Complexity: O(|S|log |S|) for Suffix Array computation
-                O(|S|) for the LCP computation.
-
-    Need SuffixArray.h
+/*
+LCP array
+Complexity: $O(|S|\log |S|)$ for Suffix Array computation and $O(|S|)$ for the LCP computation.
+Need SuffixArray.h
+---
+Source: Me
+Verification: *
 */
 
 struct LCP {

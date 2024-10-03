@@ -1,13 +1,11 @@
 /*
-    Computes the SCCs (Strongly Connected Components) in a directed graph
-    Also computes the Metagraph.
-
-    Sources: CP-algorithms
-        https://cp-algorithms.com/graph/strongly-connected-components.html
-    
-    Verification: *
-
-    Complexity: O(|V| + |E|)
+Computes the SCCs (Strongly Connected Components) in a directed graph. Also computes the Metagraph.
+The graph must be a DAG (Directed Acyclic Graph).
+Complexity: $O(|V| + |E|)$.
+---
+Sources: CP-algorithms
+    https://cp-algorithms.com/graph/strongly-connected-components.html
+Verification: *
 */
 
 struct SCC {

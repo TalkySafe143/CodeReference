@@ -1,9 +1,9 @@
 /*
-    Computes the Modular Arithmetic
-    RT = 5 is primitive root for both common mods
-    Sources: Benq
-        https://github.com/bqi343/cp-notebook/blob/master/Implementations/content/number-theory%20(11.1)/Modular%20Arithmetic/ModInt.h
-    Verification: https://open.kattis.com/problems/modulararithmetic
+---
+RT = 5 is primitive root for both common mods
+Sources: Benq
+    https://github.com/bqi343/cp-notebook/blob/master/Implementations/content/number-theory%20(11.1)/Modular%20Arithmetic/ModInt.h
+Verification: https://open.kattis.com/problems/modulararithmetic
 */
 
 template<int MOD, int RT> struct mint {

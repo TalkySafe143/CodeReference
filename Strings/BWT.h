@@ -1,21 +1,19 @@
-/**
- * Burrows–Wheeler Transform 
- * Complexity: 
- *  - Build: O(|Text|^2 ?)
- *  - Search patterns: O(|Text|)
- * 
- * Sources: me
- *
- * Verification: Coursera assignment
- * 
- * How to:
- *  - Use the constructor to search patterns, first you have to build BTW before call patternMatching
- *  - You can use the other methods separately
- *  - Remember to add a $
- */
+/*
+Burrows–Wheeler Transform
+Complexity for \textbf{Build}: $O(|Text|^2)$ and for \textbf{Search patterns}: $O(|Text|)$.
+How to:
+\begin{itemize}
+\item Use the constructor to search patterns, first you have to build BTW before call patternMatching.
+\item You can use the other methods separately.
+\item Remember to add a \$.
+\end{itemize}
+---
+Sources: me
+Verification: Coursera assignment
+*/
 
 struct BWT {
-    
+
     string btw, firstCol;
     vector<vi> cntPrefix;
     vi firstOcurrence;

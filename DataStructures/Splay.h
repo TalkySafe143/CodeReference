@@ -1,8 +1,10 @@
-/**
- * Splay Tree implementation with sum range queries
- * Source: Me & Data Structures and Algorithms Specialization (Coursera)
- * Verification: *
- */
+/*
+Splay Tree implementation with sum range queries
+Complexity for \textbf{Insertion}, \textbf{Deletion} and \textbf{Search}: $O(\log n)$ and for \textbf{Sum queries}: $O(\log n + k)$.
+---
+Source: Me & Data Structures and Algorithms Specialization (Coursera)
+Verification: *
+*/
 
 struct Vertex {
     ll key;

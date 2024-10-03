@@ -1,21 +1,18 @@
 /*
-    Computes one MST of a given Graph
-    The result MST will be in 'result' vector and total cost in costMST variable.
-    Need DSU data structure. DataStructures/Trees/DSU.h 
-
-    Sources: Me
-
-    Verification: *
-
-    Complexity: O(|E|log |V|)
+Computes one MST of a given Graph. The result MST will be in \texttt{result} vector and total cost in $costMST$ variable.
+Need DSU data structure.
+Complexity: $O(|E|log |V|)$.
+---
+Sources: Me
+Verification: *
 */
 
 
 struct Kruskal {
-    
+
     struct Edge {
         int u, v, w;
-        
+
         Edge(int a, int b, int q) : u(a), v(b), w(q) {};
 
         bool operator <(Edge& oth) const {

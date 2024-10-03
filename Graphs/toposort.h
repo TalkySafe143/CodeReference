@@ -1,20 +1,16 @@
 /*
-    Compute the Topological sort in a directed graph.
-    Takes the adj list and graph size (n) for constructor.
-    Topological order will be in TopoSort::topo
-
-    Sources: Me
-
-    Verification: *
-
-    Complexity: O(|V| + |E|)
+Compute the Topological sort in a directed graph. Takes the adj list and graph size $n$ for constructor. Topological order will be in \texttt{TopoSort::topo}
+Complexity: $O(|V| + |E|)$.
+---
+Sources: Me
+Verification: *
 */
 
 struct TopoSort {
-    
+
     vector<bool> vis;
     vi topo;
-    
+
     void dfs(int u, vi adj[]) {
         vis[u] = true;
         for (auto v: adj[u]) {

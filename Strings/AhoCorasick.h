@@ -1,19 +1,17 @@
-/**
- * Aho-Corasick automata implementation - BFS based construction
- * Complexity: 
- *  - Build: O(|Patterns|)
- *  - Search patterns: O(|Text| + |Matches|)
- * 
- * Sources: me & CP Algorithms
- *  - https://cp-algorithms.com/string/aho_corasick.html
- *
- * Verification: https://vjudge.net/solution/53691958
- * 
- * How to:
- *  - Init with v = 0 in the main program.
- *  - Run v = go(v, c) where c is the letter to move.
- *  - Run outputChain(v, lambda(vertex founded)) to print the chain, in the lambda will be the trie vertex found.
- */
+/*
+Aho-Corasick automata implementation - BFS based construction
+Complexity for \textbf{Build}: $O(|Patterns|)$ and \textbf{Search patterns}: $O(|Text| + |Matches|)$.
+How to:
+\begin{itemize}
+\item Init with $v = 0$ in the main program.
+\item Run $v = go(v, c)$ where $c$ is the letter to move.
+\item Run \texttt{outputChain(v, lambda(vertex founded))} to print the chain, in the lambda will be the trie vertex found.
+\end{itemize}
+---
+Sources: me & CP Algorithms
+- https://cp-algorithms.com/string/aho_corasick.html
+Verification: https://vjudge.net/solution/53691958
+*/
 
 const int K = 55;
 
@@ -59,7 +57,7 @@ struct AhoCorasick {
       forn(i, K) {
         if (trie[u].next[i] != -1) {
           q.push(trie[u].next[i]);
-        } 
+        }
       }
 
     }
@@ -71,11 +69,11 @@ struct AhoCorasick {
         char ch = trie[wa].pch;
         //if (ch >= 97) ch = (ch-'a') + 91; // If u use A-Za-z letters
         int c = ch-'A';
-        if (trie[x].next[c] != -1) { 
-          trie[wa].link = trie[x].next[c]; 
-          break; 
+        if (trie[x].next[c] != -1) {
+          trie[wa].link = trie[x].next[c];
+          break;
         }
-          
+
         if (x == 0) { trie[wa].link = 0; break; }
         x = trie[x].link;
       }

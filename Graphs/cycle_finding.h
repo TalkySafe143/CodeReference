@@ -1,16 +1,14 @@
 /*
-    Cycle finding in a directed graph. 
-    If there is a cycle, will be in cycle vector. 1-based nodes.
-    Source: CP algorithms
-        https://cp-algorithms.com/graph/finding-cycle.html
-
-    Verification: *
-
-    Complexity: O(|E|) for E edges
+Cycle finding in a directed graph. If there is a cycle, will be in \texttt{cycle} vector. 1-based nodes.
+Complexity: $O(|E|)$ for $E$ edges.
+---
+Source: CP algorithms
+    https://cp-algorithms.com/graph/finding-cycle.html
+Verification: *
 */
 
 struct CycleDetection {
-    
+
     bool existCycle;
     // Cycle start & Cycle end
     int cs, ce;

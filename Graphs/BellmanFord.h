@@ -1,12 +1,9 @@
 /*
-    Compute the shortest path from S with negative cycles
-    Nodes in negative cycles will be in A vector
-
-    Sources: Me & Cp-algorithms
-
-    Verification: *
-
-    Complexity: O(|V||E|)
+Compute the shortest path from $S$ with negative cycles. Nodes in negative cycles will be in $A$ vector.
+Complexity: $O(|V||E|)$.
+---
+Sources: Me & Cp-algorithms
+Verification: *
 */
 
 struct BellmanFord {

@@ -1,8 +1,5 @@
 /*
-    Solves the ecuation:
-        ax + by = gcd(a, b)
-    Where a, b, and c are constants
-    Solve for x and y
+Solves the equation: $$ax + by = gcd(a, b)$$. Where $a$, $b$, and $c$ are constants. Solve for $x$ and $y$.
 */
 
 struct ExtendedEuclidean {

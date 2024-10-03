@@ -1,21 +1,19 @@
 /**
- * Suffix Tree implementation
- * Complexity: 
- *  - Build: O(|Text|)
- *  - Search patterns: O(|Patterns| + |Matches|)
- * 
- * Sources: KACTL Issues
- * 
- * Verification: Coursera assignment
- * 
- * How to:
- *  - Tree.t is the tree itself
- *  - Tree.t[v].next is a map with outgoing edges
- *  - Take into a account that a edge have a entire label.
- */
+Suffix Tree implementation, works for LCP computation too.
+Complexity for \textbf{Build}: $O(|Text|)$.
+How to:
+\begin{itemize}
+\item \texttt{Tree.t} is the tree itself.
+\item \texttt{Tree.t[v].next} is a map with outgoing edges.
+\item Take into a account that a edge have a entire label.
+\end{itemize}
+---
+Sources: KACTL Issues
+Verification: Coursera assignment
+*/
 
 struct SuffixTree {
-    
+
     enum { MAXN = 5000 };
 
 	string s;
@@ -35,7 +33,7 @@ struct SuffixTree {
 
     Node t[MAXN*2+5];
 
-	struct State { int v, pos; }; 
+	struct State { int v, pos; };
 
     State ptr{0,0};
 

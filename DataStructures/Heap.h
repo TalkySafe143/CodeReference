@@ -1,8 +1,10 @@
 /*
- *  Build a min/max heap tree
-    Sources: Me
-    Verification: *
- * */
+Build a min/max heap tree.
+Complexity for \textbf{Insert}, \textbf{Extract First} and \textbf{Change Priority}: $O(\log n)$.
+---
+Sources: Me
+Verification: *
+*/
 struct Heap {
     vector<int> H;
     const int INF = 1e6;

@@ -1,10 +1,7 @@
 /*
-  Prefix function to KMP
-  Source: Me
-
-  Verification: *
-  Complexity: O(|P|)
-**/
+Prefix function to KMP
+Complexity: $O(|P|)$.
+*/
 
 vi prefixFunction(string &P) {
 	vi s(len(P));

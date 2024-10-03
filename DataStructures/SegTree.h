@@ -1,7 +1,6 @@
-/**
-  Simplest form of segment tree. Using [l, r) for the queries.
-  Complexity: Build $O(n)$
-              Query $O(\log n)$
+/*
+Simplest form of segment tree. Using [l, r) for the queries.
+Complexity for \textbf{Build}: $O(n)$ and \textbf{Query}: $O(\log n)$.
 */
 
 struct SegTree { // [l, r)

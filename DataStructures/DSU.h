@@ -1,8 +1,11 @@
 /*
-    Disjoint Set Union data structure
-    Sources: CP_algorithms & Me
-        https://cp-algorithms.com/data_structures/disjoint_set_union.html
-    Verification: *
+Disjoint Set Union data structure.
+Complexity for \textbf{Find}, \textbf{Union} and \textbf{Make Set}: $O(\alpha(n))$ where $\alpha(n)$ is the inverse Ackermann function.
+Ackermann function grows very slowly, so it can be considered constant. It defines like this: $\alpha(n) = \min\{k \geq 0 : A(k, k) > n\}$ where $A(k, k)$ is the Ackermann function.
+---
+Sources: CP_algorithms & Me
+    https://cp-algorithms.com/data_structures/disjoint_set_union.html
+Verification: *
 */
 
 struct DSU {

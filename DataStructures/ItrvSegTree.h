@@ -1,7 +1,7 @@
-/**
- * Iterative Segment Tree.
- * You can watch this video for better understanding: https://www.youtube.com/watch?v=Oq2E2yGadnU
- *
+/*
+Iterative Segment Tree
+---
+You can watch this video for better understanding: https://www.youtube.com/watch?v=Oq2E2yGadnU
 */
 
 struct SegTree { // [l, r)

@@ -1,10 +1,9 @@
-/**
-  Suffix Array
-
-  Source: Me
-
-  Verification: *
-  Complexity: O(|S|\log |S|)
+/*
+Suffix Array
+Complexity: $O(|S|\log |S|)$.
+---
+Source: Me
+Verification: *
 */
 
 struct SuffixArray {
