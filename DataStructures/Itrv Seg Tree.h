@@ -21,7 +21,7 @@ struct SegTree { // [l, r)
     }
 
     void update(int idx, ll val) {
-        for (t[idx += n]=val; idx > 1; idx >>= 1) t[idx<<1]= combine(t[idx], t[idx^1]);
+        for (t[idx += n]=val; idx > 1; idx >>= 1) t[idx>>1]= combine(t[idx], t[idx^1]);
     }
 
     ll query(int l, int r) {
