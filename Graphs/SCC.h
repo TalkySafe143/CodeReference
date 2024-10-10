@@ -83,6 +83,11 @@ struct SCC {
         vi roots_nodes;
         
         vis.assign(n+5, false);
+        forn(i, n) if (!vis[i+1]) dfs1(i+1, adj);
+        vis.assign(n+5, false);
+        reverse(all(order));
+
+        
         for (auto v: order) {
             if (!vis[v]){
                 dfs2(v, adj_inv);
