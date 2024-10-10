@@ -1,5 +1,5 @@
 /*
-Iterative Segment Tree
+Iterative Segment Tree, $0$-based indexing
 ---
 You can watch this video for better understanding: https://www.youtube.com/watch?v=Oq2E2yGadnU
 */
