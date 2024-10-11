@@ -33,8 +33,8 @@ struct CycleDetection {
     }
 
     CycleDetection(vi adj[], int n) {
-        color.assign(n, 0);
-        parent.assign(n, -1);
+        color.assign(n+1, 0);
+        parent.assign(n+1, -1);
         cs = -1;
         forn(i, n) if (color[i+1] == 0 && dfs(i+1, adj)) break;
 
