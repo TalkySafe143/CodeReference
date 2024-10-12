@@ -1,0 +1,76 @@
+\subsection{Matrix multiplication}
+$$AB[i,j] = \sum_{k=1}^n A[i,k] \cdot B[k,j]$$
+\subsection{Identity}
+For neutral operations with matrix, use Identity matrix.
+\subsection{Determinant} 
+Where $M[i,j]$ is obtained by removing row $i$ and column $j$ from $A$.
+\[\det(A)=\sum_{j=1}^n A[1,j] C[1,j],\]
+\[C[i,j] = (-1)^{i+j} \det(M[i,j]),\]
+\subsection{Linear recurrence}
+For functions $f(n)$:
+\[f(n) = c_1 f(n-1) + c_2 f(n-2) + \ldots + c_k f (n-k),\]
+Construct a matrix $X$ such that:
+\[ X \cdot
+ \begin{bmatrix}
+  f(i) \\
+  f(i+1) \\
+  \vdots \\
+  f(i+k-1) \\
+ \end{bmatrix}
+=
+ \begin{bmatrix}
+  f(i+1) \\
+  f(i+2) \\
+  \vdots \\
+  f(i+k) \\
+ \end{bmatrix}.
+\]
+This matrix $X$ is:
+\[
+X =
+ \begin{bmatrix}
+  0 & 1 & 0 & 0 & \cdots & 0 \\
+  0 & 0 & 1 & 0 & \cdots & 0 \\
+  0 & 0 & 0 & 1 & \cdots & 0 \\
+  \vdots & \vdots & \vdots & \vdots & \ddots & \vdots \\
+  0 & 0 & 0 & 0 & \cdots & 1 \\
+  c_k & c_{k-1} & c_{k-2} & c_{k-3} & \cdots & c_1 \\
+ \end{bmatrix}.
+\]
+We can calculate $f(n)$ as follows:
+\[
+ \begin{bmatrix}
+  f(n) \\
+  f(n+1) \\
+  \vdots \\
+  f(n+k-1) \\
+ \end{bmatrix}
+=
+X^n \cdot
+ \begin{bmatrix}
+  f(0) \\
+  f(1) \\
+  \vdots \\
+  f(k-1) \\
+ \end{bmatrix}.
+\]
+
+Remember use \textit{Binary exp} for time $O(k^3\log n)$ calculation.
+
+\subsection{Paths in a graph}
+
+Using the adjacency matrix $V$ of an unweighted graph, $V^n$ contains the number of paths of $n$ edges between the nodes.
+$V^n[i, j]=k$ indicates that exists $k$ paths of length $n$ from node $i$ to node $j$.
+
+\subsection{Shortest paths}
+
+For weighted graphs, we use
+$$AB[i,j] = \min_{k=1}^n A[i,k] + B[k,j]$$
+For multiplication (Powers of $V$), fill with $\infty$ when no exist a edge between two nodes.
+$V^n[i, j]=k$ indicates that $k$ is the minimum length of a path of $n$ edges from node $i$ to node $j$.
+
+\subsection{Number of Spanning trees}
+
+We construct a Laplacean matrix $L$, where $L[i,i]$ is the degree of node $i$ and $L[i,j]=-1$ if there is an edge between nodes $i$ and $j$, and otherwise $L[i,j]=0$.\\
+The number of spanning trees equals the determinant of a matrix that is obtained when we remove any row and any column from $L$.
+

@@ -1,0 +1,44 @@
+\subsection{Binomial coefficients}
+Analitic formula is:
+$$\binom{n}{k} = \frac{n!}{k!(n-k)!}$$
+Recurrence formula:
+$$\binom{n}{k} = \binom{n-1}{k-1} + \binom{n-1}{k}$$
+
+\subsection{Properties}
+\begin{itemize}
+\item Symmetry rule:
+    $$ \binom n k = \binom n {n-k}$$
+
+\item Factoring in:
+
+    $$ \binom n k = \frac n k \binom {n-1} {k-1} $$
+
+\item Sum over $k$:
+
+    $$ \sum_{k = 0}^n \binom n k = 2 ^ n $$
+
+\item Sum over $n$:
+
+    $$ \sum_{m = 0}^n \binom m k = \binom {n + 1} {k + 1} $$
+
+\item Sum over $n$ and $k$:
+
+    $$ \sum_{k = 0}^m  \binom {n + k} k = \binom {n + m + 1} m $$
+
+\item Sum of the squares:
+
+    $$ {\binom n 0}^2 + {\binom n 1}^2 + \cdots + {\binom n n}^2 = \binom {2n} n $$
+
+\item Weighted sum:
+
+    $$ 1 \binom n 1 + 2 \binom n 2 + \cdots + n \binom n n = n 2^{n-1} $$
+
+\item Connection with the Fibonacci numbers
+
+    $$ \binom n 0 + \binom {n-1} 1 + \cdots + \binom {n-k} k + \cdots + \binom 0 n = F_{n+1} $$
+
+\end{itemize}
+\subsection{Distribute $N$ objects among $K$ people}
+$$\binom{n}{k} = \binom{n + k -1}{k} = \frac{(n + k - 1)!}{k!(n-1)!}$$
+\subsection{Hockey-stick identity}
+$$\sum_{i=r}^{n}\binom{i}{r} = \binom{n+1}{r+1}$$

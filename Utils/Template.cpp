@@ -23,7 +23,8 @@ typedef vector<cd> vcd;
 template<class T> using pq = priority_queue<T>;
 template<class T> using pqg = priority_queue<T, vector<T>, greater<T>>;
 
-#define forn(i, a) for (int i=0; i<(a); i++)
+#define foran(i, a, n) for (int i=(a); i<(n); i++)
+#define forn(i, n) foran(i, 0, n)
 #define trav(a,x) for (auto& a : x)
 
 
