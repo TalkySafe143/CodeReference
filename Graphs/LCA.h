@@ -1,5 +1,7 @@
 /*
 Compute LCA in $O(1)$. Need $O(n\log n)$ for build RMQ.
+---
+Verification: https://codeforces.com/problemset/problem/342/E
 */
 int inf = INT_MAX;
 struct Node {
