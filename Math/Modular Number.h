@@ -12,6 +12,7 @@ template<int MOD> struct mint {
  	explicit operator int() const { return v; }
 	mint():v(0) {}
 	mint(ll _v):v(int(_v%MOD)) { v += (v<0)*MOD; }
+	mint& operator/=(const mint& o) { return (*this) *= inv(o); }
 	mint& operator+=(mint o) {
 		if ((v += o.v) >= MOD) v -= MOD;
 		return *this; }
@@ -26,4 +27,5 @@ template<int MOD> struct mint {
 	friend mint operator+(mint a, mint b) { return a += b; }
 	friend mint operator-(mint a, mint b) { return a -= b; }
 	friend mint operator*(mint a, mint b) { return a *= b; }
+	friend mint operator/(mint a, const mint& b) { return a /= b; }
 };
