@@ -1,6 +1,9 @@
 /*
 Prefix function to KMP
 Complexity: $O(|P|)$.
+---
+Source: Own
+Verification: https://leetcode.com/problems/shortest-palindrome/
 */
 
 vi prefixFunction(string &P) {
