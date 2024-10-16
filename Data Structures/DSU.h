@@ -5,35 +5,33 @@ Ackermann function grows very slowly, so it can be considered constant. It defin
 ---
 Sources: CP_algorithms & Me
     https://cp-algorithms.com/data_structures/disjoint_set_union.html
-Verification: *
+Verification: https://judge.yosupo.jp/problem/unionfind
 */
 
 struct DSU {
-    vector<int> rank;
-    vector<int> parent;
+    vi rank, parent;
 
     DSU () {};
 
     DSU(int n) {
         rank.resize(n+1);
         parent.resize(n+1);
-        for (int i = 1; i <= n; i++) make_set(i);
+        forn(i, n) make(i+1);
     }
 
-    int find_set(int v) {
+    int find(int v) {
         if (v == parent[v])
             return v;
-        return parent[v] = find_set(parent[v]);
+        return parent[v] = find(parent[v]);
     }
 
-    void make_set(int v) {
-        parent[v] = v;
-        rank[v] = 0;
+    void make(int v) {
+        parent[v] = v; rank[v] = 0;
     }
 
-    void union_sets(int a, int b) {
-        a = find_set(a);
-        b = find_set(b);
+    void unite(int a, int b) {
+        a = find(a);
+        b = find(b);
         if (a != b) {
             if (rank[a] < rank[b])
                 swap(a, b);
