@@ -33,8 +33,8 @@ struct Kruskal {
     void computeMST() {
         sort(all(edges));
         for (auto e: edges) {
-            if (disjoint.find_set(e.u) != disjoint.find_set(e.v)) {
-                costMST += e.w; disjoint.union_sets(e.u, e.v);
+            if (disjoint.find(e.u) != disjoint.find(e.v)) {
+                costMST += e.w; disjoint.unite(e.u, e.v);
                 result.pb(e);
             }
         }
