@@ -8,9 +8,9 @@ How to:
 \item Run \texttt{outputChain(v, lambda(vertex founded))} to print the chain, in the lambda will be the trie vertex found.
 \end{itemize}
 ---
-Sources: me & CP Algorithms
+Sources: Own & CP Algorithms
 - https://cp-algorithms.com/string/aho_corasick.html
-Verification: https://vjudge.net/solution/53691958
+Verification: https://vjudge.net/problem/UVA-10679
 */
 
 const int K = 55;
