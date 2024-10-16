@@ -2,6 +2,9 @@
 Sparse table for min queries.\\
 We only need the segments of length $2^i$, thus, we can query overlapping segments to find min/max.
 Complexity: $O(n\log n)$ for build and $O(1)$ for query
+---
+Source: Own
+Verification: https://codeforces.com/problemset/gymProblem/101522/B
 */
 
 struct RMQ { // [l, r] - 0 based index
