@@ -2,8 +2,8 @@
 Compute the Topological sort in a directed graph. Takes the adj list and graph size $n$ for constructor. Topological order will be in \texttt{TopoSort::topo}
 Complexity: $O(|V| + |E|)$.
 ---
-Sources: Me
-Verification: *
+Sources: Own
+Verification: https://atcoder.jp/contests/dp/tasks/dp_g
 */
 
 struct TopoSort {
