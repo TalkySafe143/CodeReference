@@ -1,6 +1,9 @@
 /*
 In a tree, compute \textit{binary jump} table for a rooted tree\\
 Complexity: $O(\log n)$.
+---
+Source: Own
+Verification: https://codeforces.com/gym/101889/problem/I
 */
 
 struct BinaryLifting {
