@@ -27,6 +27,7 @@ struct Kruskal {
     Kruskal(vpi adj[], int n) {
         disjoint = DSU(n);
         forn(i, n) for (auto [v, len_v]: adj[i+1]) edges.push_back(Edge(i+1, v, len_v));
+        computeMST();
     }
 
 
