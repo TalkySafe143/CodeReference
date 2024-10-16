@@ -1,6 +1,9 @@
 /*
 Computes shortest path for every pair of nodes.\\
 Complexity: $O(|V|^3)$.
+---
+Source: Own
+Verification: https://codeforces.com/problemset/problem/1196/F
 */
 struct Floyd {
 
