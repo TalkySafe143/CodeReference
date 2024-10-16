@@ -3,45 +3,38 @@ Computes one MST of a given Graph. Use a priority queue.
 Complexity: $O(|E|log |V|)$.
 ---
 Sources: Me
-Verification: *
+Verification: https://judge.yosupo.jp/problem/minimum_spanning_tree
 */
 
 struct Prim {
     
     struct Edge {
-        int u, v, w;
+        int u, v;
+		ll w;
 
-        Edge(int a, int b, int q) : u(a), v(b), w(q) {};
-        bool operator <(Edge &oth) const { return this->w < oth.w; }
+        Edge(int a, int b, ll q) : u(a), v(b), w(q) {};
+        bool operator >(const Edge &oth) const { return this->w > oth.w; }
     };
 
-    vector<Edge> edges, result;
-    vi cost;
-    double costMST = 0;
-    const int INF = 1e8;
+    vector<Edge> result;
+    ll costMST = 0;
     
-    Prim(vpi adj[], int n) {
-        cost.assign(n+5, INF);
-        cost[1] = 0;
-        vector<bool> enqueue(n+5, false);
-        vi p(n+5, -1);
-        pqg<pi> q;
-        q.push({0, 1});
+    Prim(vpl adj[], int n, int start=1) {
+        vector<bool> vis(n+5, false);
+        vis[start] = true;
+        pqg<Edge> q;
+        for (auto [v, ln]: adj[start]) q.push({start, v, ln});
         while (len(q)) {
-            auto S = q.top(); q.pop();
-            double len_u = S.f; int u = S.s;
-            if (len_u > cost[u]) continue;
-            if (p[u] != -1) {
-                result.pb(Edge(p[u], u, len_u));
-                costMST += len_u;
-            }
-            enqueue[u] = true;
-            for (auto [v, len_v]: adj[u]) {
-                if (!enqueue[v] && cost[v] > len_v) {
-                    cost[v] = len_v; p[v] = u;
-                    q.push({cost[v], v});
+            Edge S = q.top(); q.pop();
+            if (vis[S.v]) continue;
+            vis[S.v] = true;
+            costMST += S.w;
+            result.pb(S);
+            for (auto [v, ln]: adj[S.v]) {
+                if (!vis[v]) {
+                    q.push({S.v, v, ln});
                 }
             }
-        }    
+        }
     }
 };
