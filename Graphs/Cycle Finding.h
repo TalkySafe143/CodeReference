@@ -4,7 +4,7 @@ Complexity: $O(|E|)$ for $E$ edges.
 ---
 Source: CP algorithms
     https://cp-algorithms.com/graph/finding-cycle.html
-Verification: *
+Verification: https://codeforces.com/problemset/problem/915/D
 */
 
 struct CycleDetection {
