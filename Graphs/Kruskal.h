@@ -4,7 +4,7 @@ Need DSU data structure.
 Complexity: $O(|E|log |V|)$.
 ---
 Sources: Me
-Verification: *
+Verification: https://judge.yosupo.jp/problem/minimum_spanning_tree
 */
 
 
