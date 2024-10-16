@@ -5,7 +5,7 @@ Complexity: $O(|V| + |E|)$.
 ---
 Sources: CP-algorithms
     https://cp-algorithms.com/graph/strongly-connected-components.html
-Verification: *
+Verification: https://codeforces.com/contest/894/problem/E
 */
 
 struct SCC {
