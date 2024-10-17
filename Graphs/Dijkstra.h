@@ -3,7 +3,7 @@ Compute the shortest path from $S$. For dense graphs, use the second constructor
 Complexity: $O((|V|+|E|)log |V|)$ or $O(|V|^2)$.
 ---
 Sources: Me & Cp-algorithms
-Verification: *
+Verification: https://codeforces.com/contest/20/problem/C
 */
 
 
@@ -11,7 +11,8 @@ struct Dijkstra {
     const ll INF = 1e18;
     vl dist;
     vi p;
-    
+
+    // V is the destination Node
     void buildPath(int V, vi& path) {
         path.pb(V);
         for (V = p[V]; V != -1; V = p[V]) path.pb(V);
