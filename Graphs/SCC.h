@@ -8,9 +8,10 @@ Sources: CP-algorithms
 Verification: https://codeforces.com/contest/894/problem/E
 */
 
+
 struct SCC {
     vector<bool> vis;
-    vi order, component;
+    vi order, component, roots, roots_nodes;
     vector< vi > SCCs;
     int n;
     
@@ -73,14 +74,13 @@ struct SCC {
     }
     
     // Warning: Initialize the vi inside of adj_scc with size 0.
-    void computeMetagraph( vector< vi > &adj_scc, vi adj[], int n) {
+    SCC( vector< vi > &adj_scc, vi adj[], int n) {
 
         // Build G^R
         vi adj_inv[n+5];
         forn(i, n) for (auto v: adj[i+1]) adj_inv[v].pb(i+1);
 
-        vi roots(n+5, 0);
-        vi roots_nodes;
+        roots.assign(n+5, 0);
         
         vis.assign(n+5, false);
         forn(i, n) if (!vis[i+1]) dfs1(i+1, adj);
