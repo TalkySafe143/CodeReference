@@ -8,32 +8,33 @@ Sources: CP-algorithms
 Verification: https://codeforces.com/contest/894/problem/E
 */
 
-
 struct SCC {
     vector<bool> vis;
     vi order, component, roots, roots_nodes;
-    vector< vi > SCCs;
+    vector< vi > SCCs, roots_contains;
     int n;
     
     // Used for topological sort
-    void dfs1(int u, vi adj[]) {
+    void dfs1(int u, vector<vi> &adj) {
         vis[u] = true;
         for (auto v: adj[u]) if (!vis[v]) dfs1(v, adj);
         order.pb(u);
     }
     
     // Used for build the SCCs
-    void dfs2(int u, vi adj[]) {
+    void dfs2(int u, vector<vi> &adj){
         vis[u] = true;
         component.pb(u);
         for (auto v: adj[u]) if (!vis[v]) dfs2(v, adj);
     }
 
+    SCC() = default;
+
     // Constructor for store all components in SCCs vector
-    SCC(vi adj[], int n) {
+    SCC(vector<vi> & adj, int n) {
         this-> n = n;
         // Build G^R
-        vi adj_inv[n+5];
+        vector<vi> adj_inv(n+5);
         forn(i, n) for (auto v: adj[i+1]) adj_inv[v].pb(i+1);
 
         vis.assign(n+5, false);
@@ -51,12 +52,12 @@ struct SCC {
     }
 
     // Contructor to process SCCs via callback
-    SCC(vi adj[], int n, function<void (vi&)> Process) {
+    SCC(vector<vi> & adj, int n, function<void (vi&)> Process) {
 
         this->n = n;
 
         // Build G^R
-        vi adj_inv[n+5];
+        vector<vi> adj_inv(n+5);
         forn(i, n) for (auto v: adj[i+1]) adj_inv[v].pb(i+1);
 
         vis.assign(n+5, false);
@@ -74,10 +75,10 @@ struct SCC {
     }
     
     // Warning: Initialize the vi inside of adj_scc with size 0.
-    SCC( vector< vi > &adj_scc, vi adj[], int n) {
+    SCC( vector< vi > &adj_scc, vector<vi> &adj, int n) {
 
         // Build G^R
-        vi adj_inv[n+5];
+        vector<vi> adj_inv(n+5);
         adj_scc.resize(n+5);
         forn(i, n) for (auto v: adj[i+1]) adj_inv[v].pb(i+1);
 
@@ -99,11 +100,13 @@ struct SCC {
             }
         }
 
+        roots_contains.resize(n+5);
         forn(i, n) {
             for (auto u: adj[i+1]) {
                 int root_v = roots[i+1], root_u = roots[u];
                 if (root_u != root_v) adj_scc[root_v].pb(root_u);
             }
+            roots_contains[roots[i+1]].pb(i+1);
         }
     }
 };
