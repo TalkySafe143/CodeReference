@@ -78,6 +78,7 @@ struct SCC {
 
         // Build G^R
         vi adj_inv[n+5];
+        adj_scc.resize(n+5);
         forn(i, n) for (auto v: adj[i+1]) adj_inv[v].pb(i+1);
 
         roots.assign(n+5, 0);
