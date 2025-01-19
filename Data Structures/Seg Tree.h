@@ -1,50 +1,63 @@
 /*
-Simplest form of segment tree. Using [l, r) for the queries.
-Complexity for \textbf{Build}: $O(n)$ and \textbf{Query}: $O(\log n)$.
+Simplest form of segment tree. Using [l, r) for the queries.\\
+Complexity for \textbf{Build}: $O(n)$ and \textbf{Query}: $O(\log n)$.\\
+Use \texttt{SegTree<Info> sg(n)} and complete the struct \texttt{Info}
 */
 
+template< class Info >
 struct SegTree { // [l, r)
 	int n;
-	vl t;
+	vector<Info> t;
  
 	SegTree(int k) {
 		n = 1;
 		while (n < k) n <<= 1;
-		t.assign(2*n, 0ll);
+		t.assign(2*n, Info());
 	}
  
-	void build(int v, int lx, int rx, vi& a) {
+    void pull(int v) {
+		t[v] = t[(v << 1)]+t[(v << 1) | 1];
+    }
+
+	void build(int v, int lx, int rx, vector<Info>& a) {
 		if (lx+1 == rx) {
-			if (lx < len(a)) t[v] = a[lx]; // We added some elements, make sure we are in actual size
+			if (lx < len(a)) t[v] = a[lx]; 
 			return;
 		}
 		int mid = lx + ((rx-lx)>>1);
-		build(2*v+1, lx, mid, a);
-		build(2*v+2, mid, rx, a);
-		t[v] = t[2*v+1]+t[2*v+2];
+		build((v << 1), lx, mid, a);
+		build((v << 1) | 1, mid, rx, a);
+        pull(v);
 	}
  
-	void build(vi& a) { build(0, 0, n, a); }
+	void build(vector<Info>& a) { build(1, 0, n, a); }
  
-	void update(int v, int lx, int rx, int val, int i) {
+	void update(int v, int lx, int rx, Info val, int i) {
 		if (rx-lx == 1) {
 			t[v] = val;
 			return;
 		}
 		int mid = lx + ((rx-lx)>>1);
-		if (i < mid) update(2*v+1, lx, mid, val, i);
-		else update(2*v+2, mid, rx, val, i);
-		t[v] = t[2*v+1] + t[2*v+2];
+		if (i < mid) update((v << 1), lx, mid, val, i);
+		else update((v << 1) | 1, mid, rx, val, i);
+        pull(v);
 	}
  
-	void update(int i, int val) { update(0, 0, n, val, i); }
+	void update(int i, Info val) { update(1, 0, n, val, i); }
  
-	ll sum(int v, int lx, int rx, int l, int r) {
-		if (lx >= r || rx <= l) return 0;
+	Info sum(int v, int lx, int rx, int l, int r) {
+		if (lx >= r || rx <= l) return Info();
 		if (l <= lx && r >= rx) return t[v];
 		int mid = lx + ((rx-lx)>>1);
-		return sum(2*v+1, lx, mid, l, r)+sum(2*v+2, mid, rx, l, r);
+		return sum((v << 1), lx, mid, l, r)+sum((v << 1) | 1, mid, rx, l, r);
 	}
  
-	ll sum(int l, int r) { return sum(0, 0, n, l, r); }
+	Info sum(int l, int r) { return sum(1, 0, n, l, r); }
+};
+
+struct Info {
+
+    Info(){}; // Define this as NEUTRAL
+    friend Info operator +(const Info& a, const Info& b) { // Define this as combine
+    } 
 };
