@@ -4,7 +4,7 @@ Hash table with custom hash to safe $O(1)$
 Source: Own
 */
 
-
+#include <ext/pb_ds/assoc_container.hpp>
 using namespace __gnu_pbds;
  
 struct splitmix64 {
