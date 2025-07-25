@@ -1,6 +1,6 @@
 /*
 Fraction class - if its useful (Not all the cases). Represents $\frac{num}{denom}$\\
-Ensure GCC for __int128 and ensure __gcd
+Ensure GCC for \_\_int128 and ensure \_\_gcd
 ---
 Source: own
 */

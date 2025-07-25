@@ -1,3 +1,9 @@
+/*
+Euler tour for general graphs in $O(|V|+|E|)$.
+---
+Source: cp-algo
+*/
+
 struct Euler {
 	int n; 
 	vi path, indeg, outdeg, S, T;

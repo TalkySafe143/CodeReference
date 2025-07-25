@@ -1,7 +1,7 @@
 /*
 TSP Dynamic programming. For arbitrary start execute solve(0, -1), for forced start execute solve((1<<i), i) and append manually to the path.\\
 Call buildPath with the same parameters.
-Complexity: $O(n^2\cdot2^n)$.
+Complexity: $O(n^2\cdot 2^n)$.
 ---
 Source: https://github.com/ProgramacionCompetitivaUFPS/notebook/blob/master/c%2B%2B/Dynamic%20programming/Traveling%20Salesman%20Problem.cpp
 Verification: Coursera Assigment.

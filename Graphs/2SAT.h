@@ -1,13 +1,11 @@
 /*
 Solves $2$-SAT problem. The required format for the SAT is construct a CNF described by lines.\\
-For example, a clause could be: 1 -4. Indicating that (x_1 OR NOT(x_4)) clause is in CNF.\\
+For example, a clause could be: 1 -4. Indicating that ($x_1$ OR NOT($x_4$)) clause is in CNF.\\
 Time complexity: $O(|F|)$ where $F$ is the formula. Requires \textbf{SCC.h}
 ---
 Source: Me.
 Verification: Coursera assignment
 */
-
-
 
 struct TwoSAT {
 
