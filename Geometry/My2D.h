@@ -3,6 +3,7 @@
 ---
 Source: Own & Geometry Handbook Lecomte
 */
+
 typedef long double T;
 
 const T EPS = 1e-8L;
@@ -121,7 +122,7 @@ bool isConvex(vector<Point> &polygon) {
 void polarSort(vector<Point> &a, Point c = {0, 0}, Point I = {0, 0}) {
   // Retorna true si esta en los dos primeros cuadrantes.
   auto half = [&](Point x) -> bool {
-    assert(x.x != 0 and
+    assert(x.x != 0 or
            x.y != 0); // (0, 0) esta indefinido, porque ded ahí partimos
 
     if (I == Point{0, 0})
@@ -161,6 +162,10 @@ struct Line {
 
   Line shiftLine(long double delta) { return {v, c + delta * v.abs()}; }
 
+  bool pointsInLineComparator(Point a, Point b) {
+    return dot(v, a) < dot(v, b);
+  }
+
   // Retorna false si no es posible y coloca el resultado en out
   bool intersec(Line l, Point &out) {
     T d = cross(this->v, l.v);
@@ -190,3 +195,124 @@ Line bisector(Line a, Line b, bool internal) {
   return {a.v / a.v.abs() * sign + b.v / b.v.abs(),
           a.c / a.v.abs() * sign + b.c / b.v.abs()};
 }
+
+// true si P esta dentro del disco de diametro AB
+bool inDisk(Point a, Point b, Point p) { return dot(a - p, b - p) <= 0; }
+
+// true si P esta en el segmento [AB]
+bool onSegment(Point a, Point b, Point p) {
+  return orient(a, b, p) == 0 and inDisk(a, b, p);
+}
+
+// true si dos segmentos AB y CD tienen un unico punto de intersección, puesto
+// en OUT
+bool properIntersecSegments(Point a, Point b, Point c, Point d, Point &out) {
+  T oa = orient(c, d, a), ob = orient(c, d, b), oc = orient(a, b, c),
+    od = orient(a, b, d);
+
+  if (oa * ob < 0 and oc * od < 0) { // Estan de lados opuestos
+    out = (a * ob - b * oa) / (ob - oa);
+    return true;
+  }
+  return false;
+}
+
+struct PointComparatorByX {
+  bool operator()(const Point &a, const Point &b) const {
+    return make_pair(a.x, a.y) < make_pair(b.x, b.y);
+  };
+};
+
+// Intersection of segments [AB], [CD]. Retorna un set por la posibilidad de
+// colinear
+set<Point, PointComparatorByX> segmentIntersection(Point a, Point b, Point c,
+                                                   Point d) {
+  Point out;
+  if (properIntersecSegments(a, b, c, d, out))
+    return {out};
+
+  set<Point, PointComparatorByX> ans;
+  if (onSegment(a, b, c))
+    ans.insert(c);
+  if (onSegment(a, b, d))
+    ans.insert(d);
+  if (onSegment(c, d, a))
+    ans.insert(a);
+  if (onSegment(c, d, b))
+    ans.insert(b);
+
+  return ans;
+}
+
+// Distancia de P hasta [AB]
+T distanceToSegment(Point a, Point b, Point p) {
+  if (a != b) {
+    Line l(a, b);
+    if (l.pointsInLineComparator(a, p) and l.pointsInLineComparator(p, b)) {
+      return l.dist(p);
+    }
+  }
+  return min((p - a).abs(), (p - b).abs());
+}
+
+// Distancia desde [AB] a [CD]
+T segmentToSegmentDistance(Point a, Point b, Point c, Point d) {
+  Point dummy;
+  if (properIntersecSegments(a, b, c, d, dummy))
+    return 0;
+
+  return min({distanceToSegment(a, b, c), distanceToSegment(a, b, d),
+              distanceToSegment(c, d, a), distanceToSegment(c, d, b)});
+}
+
+T triangleArea(Point a, Point b, Point c) {
+  return fabsl(cross(b - a, c - a)) / 2.0L;
+}
+
+T areaPolygon(vector<Point> &p) {
+  int n = len(p);
+  T area = 0.0L;
+  forn(i, n) { area += cross(p[i], p[(i + 1) % n]); }
+  return fabsl(area) / 2.0L;
+}
+
+// Mira si P esta por encima de A
+bool above(Point a, Point p) {
+    return p.y >= a.y;
+}
+
+// Mira si [PQ] cruza el rayo al infinito de A
+bool crossesRay(Point p, Point q, Point a) {
+    return (above(a, q) - above(a, p)) * orient(a, p, q) > 0;
+}
+
+// Mira si A esta en el poligono **general** 
+// Si strict es true, retorna false cuando A esta en el limite
+bool pointInPolygon(Point a, vector<Point> &p, bool strict = true) {
+    int cnt = 0;
+    int n = len(p);
+    forn(i, n) {
+        if (onSegment(p[i], p[(i+1)%n], a)) {
+            return !strict;
+        }
+        cnt += crossesRay(p[i], p[(i+1)%n], a);
+    }
+    return cnt&1;
+}
+
+struct Circle {
+    Point O;
+    T r;
+
+    Circle(Point o, T r) : O(o), r(r) {}
+
+    // Circumcircle in the triangle ABC
+    Circle(Point a, Point b, Point c) {
+        b = b-a, c = c-a;
+        assert(cross(b, c) != 0);
+
+        Point AO = (b*c.sq() - c*b.sq()).perp()/cross(b, c)/2.0L;
+        r = AO.abs();
+        O = AO + a;
+    }
+};
