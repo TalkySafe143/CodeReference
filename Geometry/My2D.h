@@ -315,4 +315,26 @@ struct Circle {
         r = AO.abs();
         O = AO + a;
     }
+
+    int lineIntersection(Line l, pair<Point, Point> &out) {
+        T h2 = r*r - l.sqDist(O);
+        if (h2 >= 0) { // La linea toca al circulo
+            Point p = project(O, l);
+            Point h = l.v*sqrt(h2)/l.v.abs();
+            out = {p-h, p+h};
+        }
+        return 1 + sgn(h2);
+    }
+
+    int circleIntersection(Circle c, pair<Point, Point> &out) {
+        Point d = c.O-O; T d2 = d.sq();
+        if (d2 == 0.0L) return 0; // Los circulos son similares
+        T pd = (d2 + r*r - c.r*c.r)/2.0L;
+        T h2 = r*r - pd*pd/d2;
+        if (h2 >= 0.0L) {
+            Point p = O + d*pd/d2, h = d.perp()*sqrt(h2/d2);
+            out = {p-h, p+h};
+        }
+        return 1 + sgn(h2);
+    }
 };
