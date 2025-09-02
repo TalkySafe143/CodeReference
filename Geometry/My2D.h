@@ -71,14 +71,10 @@ Point linearTransfo(Point p, Point q, Point r, Point fp, Point fq) {
 }
 
 T dot(Point v, Point w) { return v.x * w.x + v.y * w.y; };
+
 bool isPerp(Point v, Point w) { return dot(v, w) == 0; };
 
-T angle(Point v, Point w) {
-  T cosTheta = dot(v, w) / v.abs() / w.abs();
-  T rad = clamp(cosTheta, -1.0L, 1.0L);
-
-  return acos(rad);
-}
+T angle(Point v, Point w) { return atan2(fabsl(cross(v, w)), dot(v, w)); }
 
 T radToDegree(T rads) { return (rads * 180.0L) / M_PI; }
 
