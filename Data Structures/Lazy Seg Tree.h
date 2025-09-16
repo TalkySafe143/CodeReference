@@ -19,6 +19,7 @@ template <class Node, class Op> struct LazySegTree { // [l, r) - 0-based
   int mid(int lx, int rx) { return lx + ((rx - lx) >> 1); }
   void pull(int v) { t[v] = t[v << 1] + t[v << 1 | 1]; }
   void push(int v) {
+    // early return salva vidas :^)
     t[v] *= lazy[v];
     if (v < N) { // not leaf
       lazy[v << 1] *= lazy[v];
