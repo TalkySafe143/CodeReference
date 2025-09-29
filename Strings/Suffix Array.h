@@ -1,80 +1,68 @@
 /*
-Suffix Array
+Suffix Array, \texttt{c} is the classes array and \texttt{p} is the suffix array containing the first index in the suffix 0-based index \\
 Complexity: $O(|S|\log |S|)$.
 ---
 Source: Me
 Verification: *
 */
 
-struct SuffixArray {
+template <int N> struct SuffixArray {
+  int n, l, p[N], c[N], cpy[N], cnt[N], p_new[N];
+  string s;
 
-	vi order, type, s;
+  void clear() {
+    fill(p, p + n, 0);
+    fill(c, c + n, 0);
+  }
 
-	int& operator[](int i) { return s[i]; };
-	int size() { return len(s); };
+  bool equal(int a, int b) {
+    return c[a] == c[b] and c[(a + (l >> 1)) % n] == c[(b + (l >> 1)) % n];
+  }
 
-	SuffixArray(string &S) {
-		sortCharacters(S, order);
-		computeCharClasess(S, order, type);
-		int L = 1;
-		while (L <= len(S)) {
-			sortDoubled(S, L, order, type);
-			updateClasses(order, type, L);
-			L *= 2;
-		}
-		s = vi(all(order));
-	}
+  void build_class() {
+    int cnt = 0;
+    cpy[p[0]] = cnt;
 
-	void updateClasses(vi &order, vi& type, int L) {
-		int n = len(order);
-		vi newType(n, 0);
-		newType[order[0]] = 0;
-		forn(i, n-1) {
-			int cur = order[i+1], prev = order[i];
-			int mid = (cur+L)%n, midPrev = (prev+L)%n;
-			if (type[cur] != type[prev] || type[mid] != type[midPrev]) newType[cur] = newType[prev]+1;
-			else newType[cur] = newType[prev];
-		}
-		type = vi(all(newType));
-	}
+    for (int i = 1; i < n; i++)
+      cpy[p[i]] = equal(p[i], p[i - 1]) ? cnt : ++cnt;
 
-	void sortDoubled(string &S, int L, vi &order, vi& type) {
-		int n = len(S);
-		vi count(n, 0), newOrder(len(S), 0);
-		forn(i, n) count[type[i]]++;
-		forn(i, n-1) count[i+1] = count[i+1]+count[i];
-		for (int i = n-1; i >= 0; i--) {
-			int start = (order[i]-L+n)%n;
-			int cl = type[start];
-			count[cl]--;
-			newOrder[count[cl]] = start;
-		}
-		order = vi(all(newOrder));
-	}
+    copy(cpy, cpy + n, c);
+  }
 
-	void sortCharacters(string &S, vi& order) {
-		order.assign(len(S), 0);
-		vi count(27, 0); // Depende del alfabeto
-		forn(i, len(S)) {
-			int c = (S[i] == '$' ? 0 : (S[i]-'a')+1);
-			count[c]++;
-		}
-		// Especie de prefix sum para determinar el orden
-		forn(i, 26) count[i+1] = count[i+1] + count[i];
+  void counting_sort(bool second) {
+    fill(cnt, cnt + n + 1, 0);
+    for (int i = 0; i < n; i++) {
+      cnt[c[i] + 1]++;
+    }
+    for (int i = 1; i < n; i++)
+      cnt[i] += cnt[i - 1];
 
-		for (int i = len(S)-1; i >= 0; i--) {
-			int c = (S[i] == '$' ? 0 : (S[i]-'a')+1);
-			count[c]--;
-			order[count[c]] = i;
-		}
-	}
+    for (int i = 0; i < n; i++)
+      p_new[cnt[c[(p[i] + (l >> 1) * second) % n]]++] = p[i];
 
-	void computeCharClasess(string &S, vi& order, vi& type) {
-		type.assign(len(S), 0);
-		type[order[0]] = 0;
-		forn(i, len(S)-1) {
-			if (S[order[i+1]] != S[order[i]]) type[order[i+1]] = type[order[i]]+1;
-			else type[order[i+1]] = type[order[i]];
-		}
-	}
+    copy(p_new, p_new + n, p);
+  }
+
+  void radix_sort() {
+    if (l == 1) {
+      sort(p, p + n, [&](int a, int b) { return s[a] < s[b]; });
+      return;
+    }
+    counting_sort(true);
+    counting_sort(false);
+  }
+
+  void build(string &str) {
+    s = str + "$";
+    n = (int)s.size();
+    clear();
+    iota(p, p + n, 0);
+    for (int i = 0; i < n; i++)
+      c[i] = (int)s[i];
+
+    for (l = 1; l >> 1 < n; l <<= 1) {
+      radix_sort();
+      build_class();
+    }
+  }
 };
