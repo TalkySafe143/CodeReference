@@ -1,49 +1,27 @@
 /*
 LCP array
-Complexity: $O(|S|\log |S|)$ for Suffix Array computation and $O(|S|)$ for the LCP computation.
-Need SuffixArray.h
+Complexity: $O(|S|\log |S|)$ for Suffix Array computation and $O(|S|)$ for the
+LCP computation. Need SuffixArray.h
 ---
 Source: Me
 Verification: *
 */
 
-struct LCP {
+constexpr int N = 4e5 + 5;
+SuffixArray<N> suff;
 
-    vi lcpAr;
+vector<int> compute_lcp() {
+  vector<int> lcp(suff.n);
+  int k = 0;
+  for (int i = 0; i < suff.n - 1; i++) {
+    // id es la posicion de p en la que esta el sufijo que empieza en i
+    int id = suff.c[i];
+    int prev = id - 1;
 
-    LCP(string &S, SuffixArray order) {
-        vi pos;
-        lcpAr.assign(len(S)-1, 0);
-        int lcp = 0;
-        invertSuffixArray(order, pos);
-        int suffix = order[0];
-        forn(i, len(S)-1) {
-            int orderIndex = pos[suffix];
-            if (orderIndex == len(S)-1) {
-                lcp = 0;
-                suffix = (suffix+1)%len(S);
-                continue;
-            }
-            int nextSuffix = order[orderIndex+1];
-            lcp = lcpSuffixes(S, suffix, nextSuffix, lcp-1);
-            lcpAr[orderIndex] = lcp;
-            suffix = (suffix+1)%len(S);
-        }
-    }
-
-    // Compute LCP from scracth
-    int lcpSuffixes(string &S, int i, int j, int equal) {
-        int lcp = max(0, equal);
-        while (i + lcp < len(S) && j + lcp < len(S)){
-            if (S[i+lcp] == S[j+lcp]) lcp++;
-            else break;
-        }
-        return lcp;
-    }
-
-    // Invert SuffixArray to compute the next suffix in the array
-    void invertSuffixArray(SuffixArray order, vi& pos) {
-        pos.assign(len(order), 0);
-        forn(i, len(order)) pos[order[i]] = i;
-    }
-};
+    while (suff.s[i + k] == suff.s[suff.p[prev] + k])
+      k++;
+    lcp[id] = k;
+    k = max(k - 1, 0);
+  }
+  return lcp;
+}
