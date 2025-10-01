@@ -1,10 +1,13 @@
 /*
 Computes the Hash and make range queries of the hash.\\
 For build $O(|s|)$ and $O(1)$ per query.
+---
+Verification: https://cses.fi/problemset/result/14755805/
+Source: https://github.com/ShahjalalShohag/code-library/blob/main/Strings/String%20Hashing.cpp
 */
 mt19937 rng((uint32_t)chrono::steady_clock::now().time_since_epoch().count());
 
-constexpr int N = 4e5 + 5;
+constexpr int N = 1e6 + 5;
 
 constexpr int MOD1 = 127657753, MOD2 = 987654319;
 const int b_first = uniform_int_distribution<int>(0, MOD1 - 1)(rng),
@@ -53,8 +56,8 @@ struct HashString {
     hs.emplace_back(0, 0);
     for (int i = 0; i < n; i++) {
       pair<int, int> p;
-      p.first = (hs[i].first + 1LL * pw[i].first * s[i] % MOD2) % MOD1;
-      p.second = (hs[i].second + 1LL * pw[i].second * s[i] % MOD2) % MOD1;
+      p.first = (hs[i].first + 1LL * pw[i].first * s[i] % MOD1) % MOD1;
+      p.second = (hs[i].second + 1LL * pw[i].second * s[i] % MOD2) % MOD2;
       hs.push_back(p);
     }
   }
