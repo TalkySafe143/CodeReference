@@ -6,8 +6,8 @@ Source: Own
 Verification: https://leetcode.com/problems/shortest-palindrome/
 */
 
-vi prefixFunction(string &P) {
-	vi s(len(P));
+vector<int> prefixFunction(string &P) {
+	vector<int> s(P.size());
 	s[0] = 0;
 	int border = 0;
 	for (int i = 1; i < len(P); i++) {

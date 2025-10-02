@@ -1,6 +1,7 @@
 /*
 Iterative Segment Tree, $0$-based indexing\\
-Use \texttt{SegTree<Node, N> sg(n)} where $N$ is constant and complete the struct \texttt{Node}
+Use \texttt{SegTree<Node, N> sg(n)} where $N$ is constant and complete the
+struct \texttt{Node}
 ---
 Source: https://codeforces.com/blog/entry/18051
 */

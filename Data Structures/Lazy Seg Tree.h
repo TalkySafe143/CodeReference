@@ -84,8 +84,7 @@ struct Op { // Operation for lazy update
 struct Node {
   int sz = 0;
   Node() = default;
-  friend Node operator+(Node l, Node r) {
-  };
+  friend Node operator+(Node l, Node r) {};
   Node &operator*=(const Op &a) { // How do you apply lazy operations
     return *this;
   }
