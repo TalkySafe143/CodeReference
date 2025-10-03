@@ -53,7 +53,7 @@ template <int N> struct SuffixArray {
   }
 
   void build(string &str) {
-    s = str + "$";
+    s = str + "\1"; // super marca menor que todo
     n = (int)s.size();
     clear();
     iota(p, p + n, 0);

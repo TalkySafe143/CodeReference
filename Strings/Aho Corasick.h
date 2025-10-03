@@ -11,117 +11,76 @@ Sources: Own & CP Algorithms
 Verification: https://vjudge.net/problem/UVA-10679
 */
 
-const int K = 55;
-
-struct AhoCorasick {
-
-  struct Vertex {
-    int next[K];
-    bool output = false;
-    string outputStr;
-
-    int p = -1;
-    char pch;
-
-    int link = -1; // Suffix link
-    int exit = -1; // Output link
-    int go[K];
-
-    Vertex(int p = -1, char ch = '$') : p(p), pch(ch) {
-      fill(begin(next), end(next), -1);
-      fill(begin(go), end(go), -1);
-    };
+template <int K> struct AhoCorasick {
+  struct Node {
+    int link = 0,     // suffix link
+        out_link = 0; // output link
+    vector<int> next = vector<int>(K, 0), out;
+    vector<int> go = vector<int>(K, -1);
   };
+  int n = 1, p = 0;
+  vector<Node> trie = vector<Node>(1);
 
-  vector<Vertex> trie = vector<Vertex>(1);
-
-  AhoCorasick(vector<string> &p) {
-    for (auto &d : p)
-      add_string(d);
-    buildLinks();
+  int alloc_node() {
+    trie.emplace_back();
+    return n++;
   }
 
-  void buildLinks() {
-    queue<int> r, q;
-    forn(i, K) {
-      if (trie[0].next[i] != -1) {
-        trie[trie[0].next[i]].link = 0;
-        r.push(trie[0].next[i]);
-      }
-    }
+  inline int get(char c) {
+    /*
+     using A-Za-z letters
+          if (c >= 'a') return ('Z' - 'A') + (c - 'a') + 1;
+          return c - 'A';
+     */
+    return c - 'a';
+  }
 
-    while (len(r)) {
-      int u = r.front();
-      r.pop();
-      forn(i, K) {
-        if (trie[u].next[i] != -1) {
-          q.push(trie[u].next[i]);
-        }
-      }
+  int add_string(string &T) {
+    int u = 0;
+    for (auto c : T) {
+      if (not trie[u].next[get(c)])
+        trie[u].next[get(c)] = alloc_node();
+      u = trie[u].next[get(c)];
     }
+    trie[u].out.push_back(p);
+    return p++;
+  }
 
-    while (len(q)) {
-      int wa = q.front();
+  void build() {
+    queue<int> q;
+    q.push(0);
+    while (not q.empty()) {
+      int u = q.front();
       q.pop();
-      int x = trie[trie[wa].p].link;
-      while (true) {
-        char ch = trie[wa].pch;
-        // if (ch >= 97) ch = (ch-'a') + 91; // If u use A-Za-z letters
-        int c = ch - 'A';
-        if (trie[x].next[c] != -1) {
-          trie[wa].link = trie[x].next[c];
-          break;
+      for (int c = 0; c < K; c++) {
+        int v = trie[u].next[c];
+        if (not v)
+          trie[u].next[c] = trie[trie[u].link].next[c];
+        else {
+          trie[v].link = u ? trie[trie[u].link].next[c] : 0;
+          trie[v].out_link = trie[trie[v].link].out.empty()
+                                 ? trie[trie[v].link].out_link
+                                 : trie[v].link;
+          q.push(v);
         }
-
-        if (x == 0) {
-          trie[wa].link = 0;
-          break;
-        }
-        x = trie[x].link;
       }
-
-      int u = trie[wa].link;
-      if (trie[u].output)
-        trie[wa].exit = u;
-      else
-        trie[wa].exit = trie[u].exit;
-
-      forn(i, K) if (trie[wa].next[i] != -1) q.push(trie[wa].next[i]);
     }
   }
 
-  void add_string(string &a) {
-    int v = 0;
-    for (char ch : a) {
-      //      if (ch >= 97) ch = (ch-'a') + 91; // If u use A-Za-z letters
-      int c = ch - 'A'; // Change depending capital letters or not
-      if (trie[v].next[c] == -1) {
-        trie[v].next[c] = trie.size(); // next apuntará al nodo del trie (v)
-        trie.emplace_back(v, ch);      // Se construye con el parent como v
-      }
-
-      v = trie[v].next[c];
-    }
-
-    trie[v].output = true;
-    trie[v].outputStr = a;
-  }
-
-  void outputChain(int v, function<void(int)> visit) {
-    if (trie[v].output)
+  void output_chain(int v, function<void(int)> visit) {
+    if (not trie[v].out.empty())
       visit(v);
-    if (trie[v].exit != -1)
-      outputChain(trie[v].exit, visit);
+    if (trie[v].out_link)
+      output_chain(trie[v].out_link, visit);
   }
 
   int go(int v, char ch) {
-    // if (ch >= 97) ch = (ch-'a') + 91; // If u use A-Za-z letters
-    int c = ch - 'A';
+    int c = get(ch);
     if (trie[v].go[c] == -1) {
-      if (trie[v].next[c] != -1)
-        trie[v].go[c] = trie[v].next[c];
+      if (not trie[v].next[c])
+        trie[v].go[c] = (v == 0) ? 0 : go(trie[v].link, ch);
       else
-        trie[v].go[c] = v == 0 ? 0 : go(trie[v].link, ch);
+        trie[v].go[c] = trie[v].next[c];
     }
 
     return trie[v].go[c];
