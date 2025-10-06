@@ -19,7 +19,7 @@ struct Kruskal {
   DSU disjoint;
   int costMST = 0;
 
-  Kruskal(vector<pair<int>> adj[], int n) {
+  Kruskal(vector<pair<int, int>> adj[], int n) {
     disjoint = DSU(n);
     for (int i = 0; i < n; i++)
       for (auto [v, len_v] : adj[i + 1])
