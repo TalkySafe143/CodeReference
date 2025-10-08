@@ -24,6 +24,7 @@ struct StableSum {
   double val() { return pref.back(); }
 };
 
+
 int generalEquation(double a, double b, double c, pair<double, double> &ans) {
   assert(a != 0);
   double delta = b * b - 4 * a * c;
