@@ -81,7 +81,7 @@ vector<Point> convex_hull_collinear(vector<Point> v) {
 }
 
 // This convex hull do not take any collinear points
-vector<Point> buildHull(vector<Point> v, bool allow_collinear) {
+vector<Point> buildHull(vector<Point> v) {
 
   if ((int)v.size() < 3)
     return v;
