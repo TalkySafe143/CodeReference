@@ -8,42 +8,6 @@ Sources: Cp-algorithms
 Verification: *
 */
 
-struct BITZero { // Get and Range query - Zero-based indexing - Linear
-                 // Construction
-  int n;
-  vector<int> bit;
-
-  BITZero(int n) {
-    this->n = n;
-    bit.assign(n, 0);
-  }
-
-  BITZero(vector<int> &a) : BITZero((int)a.size()) {
-    for (int i = 0; i < n; i++) {
-      bit[i] += a[i];
-      int r = i | (i + 1);
-      if (r < n)
-        bit[r] += bit[i];
-    }
-  }
-
-  // Going down in tree to get sum
-  int sum(int i) {
-    int ans = 0;
-    for (; i >= 0; i = (i & (i + 1)) - 1)
-      ans += bit[i];
-    return ans;
-  }
-
-  // Going up in tree to update
-  void update(int i, int delta) {
-    for (; i < n; i = i | (i + 1))
-      bit[i] += delta;
-  }
-
-  int rangeSum(int i, int j) { return sum(j) - sum(i); };
-}
-
 struct BIT { // Get and Range query - One-based indexing
   int n = 0;
   vector<int> bit;

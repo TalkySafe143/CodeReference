@@ -34,59 +34,6 @@ struct SCC {
 
   SCC() = default;
 
-  // Constructor for store all components in SCCs vector
-  SCC(vector<vector<int>> &adj, int n) {
-    this->n = n;
-    // Build G^R
-    vector<vector<int>> adj_inv(n + 5);
-    for (int i = 0; i < n; i++)
-      for (auto v : adj[i + 1])
-        adj_inv[v].push_back(i + 1);
-
-    vis.assign(n + 5, false);
-    for (int i = 0; i < n; i++)
-      if (!vis[i + 1])
-        dfs1(i + 1, adj);
-
-    vis.assign(n + 5, false);
-    reverse(order.begin(), order.end());
-
-    for (auto v : order) {
-      if (!vis[v]) {
-        dfs2(v, adj_inv);
-        SCCs.push_back(component);
-        component.clear();
-      }
-    }
-  }
-
-  // Contructor to process SCCs via callback
-  SCC(vector<vector<int>> &adj, int n, function<void(vector<int> &)> Process) {
-
-    this->n = n;
-
-    // Build G^R
-    vector<vi> adj_inv(n + 5);
-    for (int i = 0; i < n; i++)
-      for (auto v : adj[i + 1])
-        adj_inv[v].pb(i + 1);
-
-    vis.assign(n + 5, false);
-    for (int i = 0; i < n; i++)
-      if (!vis[i + 1])
-        dfs1(i + 1, adj);
-    vis.assign(n + 5, false);
-    reverse(order.begin(), order.end());
-
-    for (auto v : order) {
-      if (!vis[v]) {
-        dfs2(v, adj_inv);
-        Process(component);
-        component.clear();
-      }
-    }
-  }
-
   // Warning: Initialize the vi inside of adj_scc with size 0.
   SCC(vector<vi> &adj_scc, vector<vi> &adj, int n) {
 

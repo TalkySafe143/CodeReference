@@ -1,84 +1,101 @@
 /*
-Solves $2$-SAT problem. The required format for the SAT is construct a CNF
-described by lines.\\
-For example, a clause could be: 1 -4. Indicating that ($x_1$ OR NOT($x_4$))
-clause is in CNF.\\ Time complexity: $O(|F|)$ where $F$ is the formula. Requires
-\textbf{SCC.h}
+Resuelve el problema de $2$-\textbf{SAT} mediante grafo de implicaciones y componentes fuertemente conexas (SCC).  
+Cada variable $x_i$ tiene dos nodos: $i$ (representa $x_i = \text{True}$) y $i+V$ (representa $x_i = \text{False}$).  
+
+La solución es satisfacible si y solo si $\text{SCC}(i) \neq \text{SCC}(i+V)$ para todo $i$.
+
+\begin{enumerate}
+\item Complejidad: $O(V + E)$
+\item Representación: cada cláusula $(a \lor b)$ se traduce en dos implicaciones $(\lnot a \rightarrow b)$ y $(\lnot b \rightarrow a)$
+\item Funciones útiles:
+  \begin{itemize}
+    \item \texttt{either(a, b)} $\rightarrow (a \lor b)$
+    \item \texttt{implies(a, b)} $\rightarrow (\lnot a \lor b)$
+    \item \texttt{set\_true(a)}, \texttt{set\_false(a)}
+    \item \texttt{xnor(a, b)} $\rightarrow (a \leftrightarrow b)$
+    \item \texttt{xorf(a, b)} $\rightarrow (a \oplus b)$
+  \end{itemize}
+\end{enumerate}
+
 ---
-Source: Me.
-Verification: Coursera assignment
 */
 
 struct TwoSAT {
-
-  vector<vi> g, meta;
-  vi ans;
-  int V; // Number Variables
+  int V;
+  vector<vector<int>> g;
+  vector<int> comp, order, assignment;
   bool sat = true;
-  vector<bool> vis;
-  SCC scc;
 
-  // For x and -x nodes, 1 and V+1...
-  TwoSAT(vector<vi> &clauses, int w) : V(w) {
-    g = vector<vi>(2 * V + 5);
-    ans.assign(2 * V + 1, 0);
-    for (auto &c : clauses) {
+  TwoSAT(int n) : V(n), g(2 * n + 5) {}
 
-      if (len(c) == 1) {
-        int u = (-1) * c[0], v = c[0];
-        fixNode(u);
-        fixNode(v);
-        g[u].pb(v);
-        continue;
-      }
+  int neg(int x) { return (x > V ? x - V : x + V); }
 
-      int u = (-1) * c[0], v = c[1];
-      fixNode(u);
-      fixNode(v);
-      g[u].pb(v);
+  // (a OR b)
+  void either(int a, int b) {
+    a = (a > 0 ? a : V - a);
+    b = (b > 0 ? b : V - b);
+    g[neg(a)].push_back(b);
+    g[neg(b)].push_back(a);
+  }
 
-      u = (-1) * c[1], v = c[0];
-      fixNode(u);
-      fixNode(v);
-      g[u].pb(v);
-    }
+  // a => b  → (¬a ∨ b)
+  void implies(int a, int b) {
+    a = (a > 0 ? a : V - a);
+    b = (b > 0 ? b : V - b);
+    g[neg(a)].push_back(b);
+  }
 
-    scc = SCC(meta, g, 2 * V);
+  void set_true(int a)  { either(a, a); }
+  void set_false(int a) { either(-a, -a); }
 
-    forn(i, V) {
-      if (scc.roots[i + 1] == scc.roots[V + i + 1]) {
+  // (a ↔ b)
+  void xnor(int a, int b) {
+    implies(a, b);
+    implies(b, a);
+  }
+
+  // (a ⊕ b)
+  void xorf(int a, int b) {
+    either(a, b);
+    either(-a, -b);
+  }
+
+  // Kosaraju SCC
+  void dfs1(int v, vector<int>& vis, vector<vector<int>>& gr) {
+    vis[v] = 1;
+    for (int u : gr[v]) if (!vis[u]) dfs1(u, vis, gr);
+    order.push_back(v);
+  }
+
+  void dfs2(int v, int c, vector<int>& vis, vector<vector<int>>& grt) {
+    vis[v] = 1;
+    comp[v] = c;
+    for (int u : grt[v]) if (!vis[u]) dfs2(u, c, vis, grt);
+  }
+
+  bool solve() {
+    int N = 2 * V;
+    vector<vector<int>> grt(N + 1);
+    for (int v = 1; v <= N; v++) for (int u : g[v]) grt[u].push_back(v);
+
+    vector<int> vis(N + 1, 0);
+    for (int i = 1; i <= N; i++) if (!vis[i]) dfs1(i, vis, g);
+
+    comp.assign(N + 1, -1);
+    fill(vis.begin(), vis.end(), 0);
+    int j = 0;
+    reverse(order.begin(), order.end());
+    for (int v : order) if (!vis[v]) dfs2(v, ++j, vis, grt);
+
+    assignment.assign(V + 1, 0);
+    for (int i = 1; i <= V; i++) {
+      if (comp[i] == comp[i + V]) {
         sat = false;
-        break;
+        return false;
       }
+      assignment[i] = (comp[i] > comp[i + V]);
     }
-
-    if (sat)
-      assignVariables();
-  }
-
-  void fixNode(int &u) {
-    if (u < 0)
-      u = V + abs(u);
-  }
-
-  void dfs(int u) {
-    if (vis[u])
-      return;
-    vis[u] = true;
-    for (auto v : meta[u])
-      dfs(v);
-    for (auto c : scc.roots_contains[u]) {
-      bool neg = false;
-      if (c > V)
-        c -= V, neg = true;
-      if (ans[c] != 0)
-        continue;
-      ans[c] = (neg ? -1 : 1);
-    }
-  }
-
-  void assignVariables() {
-    vis.assign(2 * V + 5, false);
-    forn(i, 2 * V) { dfs(i + 1); }
+    return true;
   }
 };
+
