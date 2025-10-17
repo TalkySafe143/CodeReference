@@ -35,6 +35,11 @@ template <int K> struct AhoCorasick {
     return c - 'a';
   }
 
+  void clear() {
+    n = 1, p = 0;
+    trie = vector<Node>(1);
+  }
+
   int add_string(string &T) {
     int u = 0;
     for (auto c : T) {
