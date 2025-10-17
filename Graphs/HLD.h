@@ -1,7 +1,7 @@
 /*
 Heavy Light Decomposition. Requires Segment Tree (Lazy by default) \\
-Add the edges with \texttt{add_edge()}, update initial values with \texttt{update_path(u, u, x)} after \texttt{init()} was called. !!!! Initialize HLD struct as global to avoid Segmentation fault \\
-Operations in $O(\log^2 n)$, only pass through at most $\log n$ light nodes!!
+Add the edges with \texttt{add\_edge()}, update initial values with \texttt{update\_path(u, u, x)} after \texttt{init()} was called. Initialize HLD struct as global to avoid Segmentation fault \\
+Operations in $O(\log^2 n)$, only pass through at most $\log n$ light nodes
 ---
 Source: Benq
 Verfication: CSES

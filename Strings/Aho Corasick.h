@@ -27,11 +27,9 @@ template <int K> struct AhoCorasick {
   }
 
   inline int get(char c) {
-    /*
-     using A-Za-z letters
-          if (c >= 'a') return ('Z' - 'A') + (c - 'a') + 1;
-          return c - 'A';
-     */
+     //using A-Za-z letters
+      //    if (c >= 'a') return ('Z' - 'A') + (c - 'a') + 1;
+       //   return c - 'A';
     return c - 'a';
   }
 

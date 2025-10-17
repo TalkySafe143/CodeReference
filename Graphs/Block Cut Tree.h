@@ -1,5 +1,5 @@
 /*
-Block cut tree in $O(|V| + |E|)$. Two vertex lies in the same BCC iff exist at least to vertex-disjoint paths beetween them. Call \texttt{dfs(1)} and later \texttt{build_bt(n)}.
+Block cut tree in $O(|V| + |E|)$. Two vertex lies in the same BCC iff exist at least to vertex-disjoint paths beetween them. Call \texttt{dfs(1)} and later \texttt{build\_bt(n)}.
 ---
 Source: https://youkn0wwho.academy/topic-list/articulation_points
 */
