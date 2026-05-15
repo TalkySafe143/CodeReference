@@ -113,3 +113,32 @@ vector<Point> buildHull(vector<Point> v) {
 
   return hull;
 }
+
+// Check if pnt is inside the convex poligon P. O(log n)
+// P must have the lexicographical minimum as p[0] and ordered ccw
+bool is_inside(vector<Point> &p, Point pnt) {
+  // you can use this to rotate the poligon if point is pair
+  // rotate (p.begin (), min_element (p.begin (), p.end ()), p.end ());
+  if (not inAngle(p[0], p[1], p.back(), pnt))
+    return false;
+
+  if (collinear(p[0], p.back(), pnt))
+    return onSegment(p[0], p.back(), pnt);
+
+  int l = 0, r = n;
+  while (l + 1 < r) {
+    int m = midpoint(l, r);
+    if (ccw(p[0], p[m], pnt))
+      l = m;
+    else
+      r = m;
+  }
+
+  T inner = abs(cross(pnt - p[0], p[l + 1] - p[0]));
+  inner += abs(cross(p[l] - p[0], pnt - p[0]));
+  inner += abs(cross(p[l] - pnt, p[l + 1] - pnt));
+
+  T outside = abs(cross(p[l] - p[0], p[l + 1] - p[0]));
+
+  return outside == inner;
+}
