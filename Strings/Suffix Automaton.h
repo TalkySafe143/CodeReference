@@ -7,11 +7,11 @@ constexpr int N = 1e5 + 5;
 
 namespace suffix_automata {
 
-constexpr int SIGMA = 26;
+constexpr int SIGMA = 11;
 
 struct state
 {
-  int link, len;
+  int link, len, l, r; // [l, r) in string position
   vector<int> go = vector<int> (SIGMA, 0);
 };
 
@@ -28,12 +28,18 @@ init () // just inits the root
 }
 
 void
-add_char (char c)
+add_char (char c, int i)
 {
   int nw = sz++;
+
   st[nw].len = st[last].len + 1;
+  nodes.push_back (nw);
+
+  st[nw].l = st[last].l;
+  st[nw].r = st[last].r + 1;
+
   int p = last;
-  int ch = static_cast<int> (c - 'a');
+  int ch = static_cast<int> (c - '0');
 
   while (p != -1 and not st[p].go[ch])
     {
@@ -55,7 +61,13 @@ add_char (char c)
       else
 	{
 	  int clone = sz++;
+	  nodes.push_back (clone);
+
 	  st[clone].len = st[p].len + 1;
+
+	  st[clone].l = st[q].r - st[clone].len;
+	  st[clone].r = st[q].r;
+
 	  st[clone].link = st[q].link;
 	  st[clone].go = st[q].go;
 
@@ -72,5 +84,4 @@ add_char (char c)
 }
 
 }; // namespace suffix_automata
-
 
