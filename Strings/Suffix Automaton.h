@@ -38,7 +38,7 @@ add_char (char c, int i)
   st[nw].r = st[last].r + 1;
 
   int p = last;
-  int ch = static_cast<int> (c - '0');
+  int ch = static_cast<int> (c - 'a');
 
   while (p != -1 and not st[p].go[ch])
     {
