@@ -7,7 +7,7 @@ constexpr int N = 1e5 + 5;
 
 namespace suffix_automata {
 
-constexpr int SIGMA = 11;
+constexpr int SIGMA = 26;
 
 struct state
 {
@@ -33,7 +33,6 @@ add_char (char c, int i)
   int nw = sz++;
 
   st[nw].len = st[last].len + 1;
-  nodes.push_back (nw);
 
   st[nw].l = st[last].l;
   st[nw].r = st[last].r + 1;
@@ -61,7 +60,6 @@ add_char (char c, int i)
       else
 	{
 	  int clone = sz++;
-	  nodes.push_back (clone);
 
 	  st[clone].len = st[p].len + 1;
 
