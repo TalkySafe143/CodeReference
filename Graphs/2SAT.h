@@ -38,7 +38,7 @@ struct TwoSAT {
     g[neg(b)].push_back(a);
   }
 
-  // a => b  → (¬a ∨ b)
+  // a => b  -> (!a or b)
   void implies(int a, int b) {
     a = (a > 0 ? a : V - a);
     b = (b > 0 ? b : V - b);
@@ -48,13 +48,13 @@ struct TwoSAT {
   void set_true(int a)  { either(a, a); }
   void set_false(int a) { either(-a, -a); }
 
-  // (a ↔ b)
+  // (a <-> b)
   void xnor(int a, int b) {
     implies(a, b);
     implies(b, a);
   }
 
-  // (a ⊕ b)
+  // (a ^ b)
   void xorf(int a, int b) {
     either(a, b);
     either(-a, -b);

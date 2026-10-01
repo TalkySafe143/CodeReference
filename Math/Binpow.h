@@ -1,5 +1,5 @@
 /*
-Calculates a ^ b mod m using binary exponentiation.
+Calculates $a^b$ mod m using binary exponentiation.
 ---
 Source: https://cp-algorithms.com/algebra/binary-exp.html
 */
