@@ -1,6 +1,7 @@
 /*
 Calculates a ^ b mod m using binary exponentiation.
-Implementation from: https://cp-algorithms.com/algebra/binary-exp.html 
+---
+Implementation from: https://cp-algorithms.com/algebra/binary-exp.html
 */
 
 long long binpow(long long a, long long b, long long m) {
