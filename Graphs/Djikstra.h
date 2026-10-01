@@ -6,10 +6,10 @@ Sources: Cp-Algorithms
 Verification: *
 */
 
-vector<vector<pair<ll, ll>>> adj;
+vector<vector<pair<long long, long long>>> adj;
 
 struct Djikstra{
-  const ll INF = 1e18;
+  const long long INF = 1e18;
   int n;
   vector<long long> dist;
   vector<int> p;
@@ -22,8 +22,7 @@ struct Djikstra{
 
   void shortestPath(int S) {
       dist[S] = 0;
-      using pll = pair<ll, ll>;
-      priority_queue<pll, vector<pll>, greater<pll>> q;
+      priority_queue<pair<long long,long long>, vector<pair<long long ,long long>>, greater<pair<long long, long long>>> q;
       q.push({0, S});
       while (!q.empty()) {
           auto [d_v, v] = q.top();
@@ -45,11 +44,11 @@ struct Djikstra{
   vector<int> path(int F){
       vector<int> path;
 
-    for (int v = F; v != -1; v = p[v])
-        path.push_back(v);
+      for (int v = F; v != -1; v = p[v])
+          path.push_back(v);
 
-    reverse(path.begin(), path.end());
-    return path;
+      reverse(path.begin(), path.end());
+      return path;
   }
 
 };
